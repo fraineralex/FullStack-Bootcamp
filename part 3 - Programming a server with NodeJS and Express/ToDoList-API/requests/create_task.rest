@@ -1,0 +1,7 @@
+POST http://localhost:5000/api/tasks
+Content-Type: application/json
+
+{
+"content": "Creating a second task",
+"isCompleted": false
+}

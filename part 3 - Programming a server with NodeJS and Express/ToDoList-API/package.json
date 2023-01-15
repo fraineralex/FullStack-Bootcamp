@@ -1,0 +1,35 @@
+{
+  "name": "ToDoList",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "lint": "eslint .",
+    "dev": "nodemon app.js"
+  },
+  "author": "Frainer Encarnación",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "0.27.2",
+    "bcryptjs": "2.4.3",
+    "connect-flash": "0.1.1",
+    "cors": "2.8.5",
+    "csurf": "1.11.0",
+    "dotenv": "16.0.3",
+    "express": "4.17.1",
+    "express-handlebars": "5.3.2",
+    "express-session": "1.17.2",
+    "moment": "2.29.4",
+    "mongoose": "6.8.3",
+    "multer": "1.4.2",
+    "nodemon": "2.0.12",
+    "sequelize": "6.6.5",
+    "sqlite3": "5.0.2",
+    "uuid": "8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "8.31.0"
+  }
+}

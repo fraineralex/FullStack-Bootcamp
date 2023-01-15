@@ -11,7 +11,6 @@ exports.GetHome = async (req, res) => {
  variable and Rendering the home page. */
 exports.GetTasks = async (req, res) => {
     const tasks = await Task.find({})
-
     res.json(tasks)
 }
 
@@ -19,21 +18,19 @@ exports.GetTasks = async (req, res) => {
 exports.GetTaskById = async (req, res, next) => {
     const id = req.params.id
 
-    if(id.lenht !== 24){
-        return res.status(400).send({error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
+    if(id.length !== 24) {
+        res.status(400).send({
+            error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
     }
 
     try{
         const task = await Task.findById(id)
-        if(!task){
-            res.status(404).end()
-        }
-        else {
-            res.status(200).json(task)
-        }
+
+        if(!task) return res.status(404).end()
+        res.status(200).json(task)
     }
     catch (error) {
-        res.status(500).end()
+        next(error)
     }
 }
 
@@ -58,14 +55,19 @@ exports.CreateTask = async (req, res, next) => {
         res.status(201).json(savedTask)
     }
     catch(err) {
-        res.status(500).end()
+        next(err)
     }
 }
 
 
 /* This is a function that is being used to delete a task from the database. */
-exports.DeleteTask = async (req, res) => {
+exports.DeleteTask = async (req, res, next) => {
     const id = req.params.id
+
+    if(id.length !== 24) {
+        res.status(400).send({
+            error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
+    }
 
     try{
 
@@ -77,7 +79,7 @@ exports.DeleteTask = async (req, res) => {
 
     }
     catch (error){
-        res.status(500).end()
+        next(error)
     }
   
 }
@@ -86,6 +88,11 @@ exports.DeleteTask = async (req, res) => {
 exports.EditTask = async (req, res, next) => {
     const { content, isCompleted } = req.body
     const { id } = req.params
+
+    if(id.length !== 24) {
+        res.status(400).send({
+            error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
+    }
 
     /* This is a validation that is being done to make sure that the user is not submitting an empty task. */
     if (!content && !isCompleted) {
@@ -104,7 +111,7 @@ exports.EditTask = async (req, res, next) => {
         res.status(200).json(updatedTask)
     }
     catch (error){
-        res.status(500).end()
+        next(error)
     }
 
 }

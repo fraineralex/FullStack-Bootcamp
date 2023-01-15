@@ -17,27 +17,3 @@ taskSchema.set('toJSON', {
 const Task = model('Task', taskSchema)
 
 module.exports = Task
-
-/* Task.find({})
-    .then(result => {
-        console.log(result)
-        mongoose.connection.close()
-    })
-    .catch(err => {
-        console.error(err)
-    }) */
-
-/* const task = new Task({
-    content: 'MongoDb is incredible!',
-    date: new Date(),
-    isCompleted: false
-})
-
-task.save()
-    .then(result => {
-        console.log(result)
-        mongoose.connection.close()
-    })
-    .catch(err => {
-        console.error(err)
-    }) */

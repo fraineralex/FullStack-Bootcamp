@@ -4,24 +4,27 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "jest --verbose",
-    "start": "node app.js",
+    "start": "cross-env NODE_ENV=production node app.js",
     "lint": "eslint .",
-    "dev": "nodemon app.js"
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --silent",
+    "test:watch": "npm run test -- --watch"
   },
   "author": "Frainer Encarnación",
   "license": "ISC",
   "dependencies": {
-    "@sentry/node": "^7.30.0",
-    "@sentry/tracing": "^7.30.0",
+    "@sentry/node": "7.30.0",
+    "@sentry/tracing": "7.30.0",
     "cors": "2.8.5",
+    "cross-env": "7.0.3",
     "dotenv": "16.0.3",
     "express": "4.17.1",
     "mongoose": "6.8.3",
     "nodemon": "2.0.12"
   },
   "devDependencies": {
-    "eslint": "8.31.0"
+    "eslint": "8.31.0",
+    "supertest": "^6.3.3"
   },
   "jest": {
     "testEnvironment": "node"

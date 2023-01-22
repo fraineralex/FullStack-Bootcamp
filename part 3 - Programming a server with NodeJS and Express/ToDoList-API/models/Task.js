@@ -3,7 +3,11 @@ const { model, Schema } = require('mongoose')
 const taskSchema = new Schema({
     content: String,
     date: Date,
-    isCompleted: Boolean
+    isCompleted: Boolean,
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
 
 taskSchema.set('toJSON', {

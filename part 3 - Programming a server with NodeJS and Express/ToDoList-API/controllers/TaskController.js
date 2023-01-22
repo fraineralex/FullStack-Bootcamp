@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const Task = require('../models/Task')
+const User = require('../models/User')
 
 //Home controllers
 exports.GetHome = async (req, res) => {
@@ -10,7 +11,10 @@ exports.GetHome = async (req, res) => {
 /* Finding all the tasks that belong to the user and then mapping them to the tasks
  variable and Rendering the home page. */
 exports.GetTasks = async (req, res) => {
-    const tasks = await Task.find({})
+    const tasks = await Task.find({}).populate('user', {
+        username: 1,
+        name: 1
+    })
     res.json(tasks)
 }
 
@@ -36,22 +40,28 @@ exports.GetTaskById = async (req, res, next) => {
 
 exports.CreateTask = async (req, res, next) => {
     console.log(req.body)
-    const { content, isCompleted } = req.body
+    const { content, isCompleted, userId } = req.body
 
     if (!content) {
         return res.status(400).json({
             error: 'required "content" field is missing'
         })
     }
+    
+    const user = await User.findById(userId)
 
     const task = new Task({
         content: content,
         date: new Date(),
-        isCompleted: isCompleted || false
+        isCompleted: isCompleted || false,
+        user: user._id
     })
 
     try {
         const savedTask = await task.save()
+        user.tasks = user.tasks.concat(savedTask._id)
+        await user.save()
+
         res.status(201).json(savedTask)
     }
     catch(err) {

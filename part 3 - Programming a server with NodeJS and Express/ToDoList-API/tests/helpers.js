@@ -1,4 +1,5 @@
 const supertest = require('supertest')
+const User = require('../models/User')
 const { app } = require('../app')
 
 const api = supertest(app)
@@ -24,8 +25,15 @@ const getAllContentFromTasks = async () => {
     return {content, response}
 }
 
+const getUsers = async () => {
+    const usersDB = await User.find({})
+    const userAtStart = usersDB.map(user => user.toJSON())
+    return userAtStart
+}
+
 module.exports = {
     initialTasks,
     api,
-    getAllContentFromTasks
+    getAllContentFromTasks,
+    getUsers
 }

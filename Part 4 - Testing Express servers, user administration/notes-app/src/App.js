@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Notification from './components/Notification'
+import RenderCreateNoteForm from './components/RenderCreateNotesForm'
+import RenderLoginForm from './components/RenderLoginForm'
 import noteService from './services/notes'
 import loginService from './services/login'
 
@@ -92,7 +94,7 @@ const App = () => {
   ? notes
   : notes.filter(note => note.important)
 
-  const renderLoginForm = () => (
+/*   const renderLoginForm = () => (
     <form onSubmit={handleLogin}>
         <div>
           <input
@@ -141,7 +143,7 @@ const App = () => {
         )}
       </ul>
   </div>
-  )
+  ) */
 
   return (
     <div>
@@ -150,11 +152,21 @@ const App = () => {
 
       {
         user
-          ? renderCreateNoteForm()
-          : renderLoginForm()
+          ? <RenderCreateNoteForm
+              addNote={addNote}
+              newNote={newNote}
+              notesToShow={notesToShow}
+              handleNoteChange={handleNoteChange}
+              toggleImportanceOf={toggleImportanceOf}
+            />
+          : <RenderLoginForm
+              handleLogin={handleLogin}
+              username={username}
+              setUsername={setUsername}
+              password={password}
+              setPassword={setPassword}
+            />
       }
-
-      
     </div>
 
   )

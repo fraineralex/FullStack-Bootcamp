@@ -94,57 +94,6 @@ const App = () => {
   ? notes
   : notes.filter(note => note.important)
 
-/*   const renderLoginForm = () => (
-    <form onSubmit={handleLogin}>
-        <div>
-          <input
-            type="text"
-            value={username}
-            name='Username'
-            placeholder='Username'
-            onChange={({target}) => setUsername(target.value)}
-          />
-        </div>
-
-        <div>
-          <input
-            type="password"
-            value={password}
-            name='Password'
-            placeholder='Password'
-            onChange={({target}) => setPassword(target.value)}
-          />
-        </div>
-
-        <button>
-          Login
-        </button>
-
-    </form>
-  )
-
-  const renderCreateNoteForm = () => (
-    <div>
-      <form onSubmit={addNote}>
-        <input 
-        placeholder='Write your note'
-        value={newNote}
-        onChange={handleNoteChange}
-        />
-        <button type="submit">save</button>
-      </form>
-      <ul>
-        {notesToShow.map((note, i) => 
-          <Note
-          key={i}
-          note={note} 
-          toggleImportance = {() => toggleImportanceOf(note.id)}
-          />
-        )}
-      </ul>
-  </div>
-  ) */
-
   return (
     <div>
       <h1>Notes</h1>

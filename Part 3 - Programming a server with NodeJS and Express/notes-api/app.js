@@ -9,8 +9,9 @@ const Sentry = require('@sentry/node')
 const Tracing = require('@sentry/tracing')
 const handleErrors = require('./middlewares/handleErrors')
 const notFound = require('./middlewares/notFound')
-const taskRouter = require('./routes/taskRouter')
-const usersRouter = require('./controllers/UserController')
+const noteRouter = require('./controllers/notes')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 const cors = require('cors')
 
 // Initialize express app
@@ -40,9 +41,12 @@ app.use(Sentry.Handlers.tracingHandler())
 app.use(cors())
 app.use(express.json())
 
+
 //routes
-app.use(taskRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
+app.use('/api/notes', noteRouter)
+
 app.use(Sentry.Handlers.errorHandler())
 app.use(notFound)
 app.use(handleErrors)

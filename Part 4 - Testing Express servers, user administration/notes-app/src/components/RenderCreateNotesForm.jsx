@@ -5,6 +5,7 @@ const RenderCreateNoteForm = ({addNote, newNote, notesToShow, handleNoteChange, 
       <form onSubmit={addNote}>
         <input 
         placeholder='Write your note'
+        name='newNote'
         value={newNote}
         onChange={handleNoteChange}
         />

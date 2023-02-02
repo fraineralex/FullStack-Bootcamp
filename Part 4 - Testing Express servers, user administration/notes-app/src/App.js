@@ -29,13 +29,14 @@ const App = () => {
     event.preventDefault()
     const noteObject = {
       content: newNote,
-      date: new Date().toISOString(),
       important: Math.random() > 0.5,
 
     }
 
+    const { token } = user
+
     noteService
-    .create(noteObject)
+    .create(noteObject, { token })
     .then(returnedNote => {
       setNotes(notes.concat(returnedNote))
       setNewNote('')
@@ -62,7 +63,7 @@ const App = () => {
   }
 
   const handleNoteChange = (event) => {
-    event.preventDefault()
+    //event.preventDefault()
     
   }
 
@@ -74,8 +75,6 @@ const App = () => {
         username,
         password
       })
-
-      console.log(user)
 
       setUser(user)
       setUsername('')
@@ -93,6 +92,57 @@ const App = () => {
   const notesToShow = showAll
   ? notes
   : notes.filter(note => note.important)
+
+  const renderLoginForm = () => (
+    <form onSubmit={handleLogin}>
+        <div>
+          <input
+            type="text"
+            value={username}
+            name='Username'
+            placeholder='Username'
+            onChange={({target}) => setUsername(target.value)}
+          />
+        </div>
+
+        <div>
+          <input
+            type="password"
+            value={password}
+            name='Password'
+            placeholder='Password'
+            onChange={({target}) => setPassword(target.value)}
+          />
+        </div>
+
+        <button>
+          Login
+        </button>
+
+    </form>
+  )
+
+  const renderCreateNoteForm = () => (
+    <div>
+      <form onSubmit={addNote}>
+        <input 
+        placeholder='Write your note'
+        value={newNote}
+        onChange={handleNoteChange}
+        />
+        <button type="submit">save</button>
+      </form>
+      <ul>
+        {notesToShow.map((note, i) => 
+          <Note
+          key={i}
+          note={note} 
+          toggleImportance = {() => toggleImportanceOf(note.id)}
+          />
+        )}
+      </ul>
+  </div>
+  )
 
   return (
     <div>

@@ -4,6 +4,8 @@ test.skip('palinforme of fraineralex', () => {
     const result = palindrome('fraineralex')
 
     expect(result).toBe('xelareniarf')
+    'rfw'.includes
+    Math.max()
 })
 
 test.skip('palindrome of empty string', () => {

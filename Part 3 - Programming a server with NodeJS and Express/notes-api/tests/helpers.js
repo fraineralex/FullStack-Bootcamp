@@ -4,7 +4,7 @@ const { app } = require('../app')
 
 const api = supertest(app)
 
-const initialTasks = [
+const initialNotes = [
     {
         content: 'Learning full stack development',
         isCompleted: false,
@@ -19,9 +19,9 @@ const initialTasks = [
     }
 ]
 
-const getAllContentFromTasks = async () => {
-    const response = await api.get('/api/tasks')
-    const content = response.body.map(task => task.content)
+const getAllContentFromNotes = async () => {
+    const response = await api.get('/api/notes')
+    const content = response.body.map(note => note.content)
     return {content, response}
 }
 
@@ -32,8 +32,8 @@ const getUsers = async () => {
 }
 
 module.exports = {
-    initialTasks,
+    initialNotes,
     api,
-    getAllContentFromTasks,
+    getAllContentFromNotes,
     getUsers
 }

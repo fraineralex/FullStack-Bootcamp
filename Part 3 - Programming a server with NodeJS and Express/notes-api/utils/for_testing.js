@@ -1,5 +1,5 @@
 const palindrome = (string) => {
-    if (typeof string === 'undefined') return undefined
+    if (typeof string === 'undefined' && string === '') return undefined
 
     return string
         .split('')

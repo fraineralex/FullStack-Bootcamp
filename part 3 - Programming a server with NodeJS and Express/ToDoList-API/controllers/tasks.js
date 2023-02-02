@@ -1,49 +1,54 @@
+/* eslint-disable no-empty */
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+const jwt = require('jsonwebtoken')
 const Task = require('../models/Task')
 const User = require('../models/User')
+const taskRouter = require('express').Router()
+const userExtractor = require('../middlewares/userExtractor')
 
 //Home controllers
-exports.GetHome = async (req, res) => {
+taskRouter.get('/', async (request, response) => {
 
-    res.send('<h1>Welcome to ToDoList API</h1>')
-}
+    response.send('<h1>Welcome to ToDoList API</h1>')
+})
 
 /* Finding all the tasks that belong to the user and then mapping them to the tasks
  variable and Rendering the home page. */
-exports.GetTasks = async (req, res) => {
+taskRouter.get('', async (request, response) => {
     const tasks = await Task.find({}).populate('user', {
         username: 1,
         name: 1
     })
-    res.json(tasks)
-}
+    response.json(tasks)
+})
 
 /* This is a function that create a new task in the database and rending to home page*/
-exports.GetTaskById = async (req, res, next) => {
-    const id = req.params.id
+taskRouter.get('/:id', async (request, response, next) => {
+    const id = request.params.id
 
     if(id.length !== 24) {
-        res.status(400).send({
+        response.status(400).send({
             error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
     }
 
     try{
         const task = await Task.findById(id)
 
-        if(!task) return res.status(404).end()
-        res.status(200).json(task)
+        if(!task) return response.status(404).end()
+        response.status(200).json(task)
     }
     catch (error) {
         next(error)
     }
-}
+})
 
-exports.CreateTask = async (req, res, next) => {
-    console.log(req.body)
-    const { content, isCompleted, userId } = req.body
+taskRouter.post('/', userExtractor, async (request, response, next) => {
+    const { content, isCompleted } = request.body
+    const { userId } = request
 
     if (!content) {
-        return res.status(400).json({
+        return response.status(400).json({
             error: 'required "content" field is missing'
         })
     }
@@ -62,20 +67,20 @@ exports.CreateTask = async (req, res, next) => {
         user.tasks = user.tasks.concat(savedTask._id)
         await user.save()
 
-        res.status(201).json(savedTask)
+        response.status(201).json(savedTask)
     }
     catch(err) {
         next(err)
     }
-}
+})
 
 
 /* This is a function that is being used to delete a task from the database. */
-exports.DeleteTask = async (req, res, next) => {
-    const id = req.params.id
+taskRouter.delete('/:id', userExtractor, async (request, response, next) => {
+    const id = request.params.id
 
     if(id.length !== 24) {
-        res.status(400).send({
+        response.status(400).send({
             error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
     }
 
@@ -83,30 +88,30 @@ exports.DeleteTask = async (req, res, next) => {
 
         const isDeleted = await Task.findByIdAndDelete(id)
 
-        if (!isDeleted) return res.status(404).send({error: 'Task not found in the system'})
+        if (!isDeleted) return response.status(404).send({error: 'Task not found in the system'})
 
-        res.status(204).end()
+        response.status(204).end()
 
     }
     catch (error){
         next(error)
     }
   
-}
+})
 
 /* This is a function that is being used to update the content of a task in the database. */
-exports.EditTask = async (req, res, next) => {
-    const { content, isCompleted } = req.body
-    const { id } = req.params
+taskRouter.put('/:id', userExtractor, async (request, response, next) => {
+    const { content, isCompleted } = request.body
+    const { id } = request.params
 
     if(id.length !== 24) {
-        res.status(400).send({
+        response.status(400).send({
             error: 'the id argument must be a string of 12 bytes or a string of 24 hex characters or an integer'})
     }
 
     /* This is a validation that is being done to make sure that the user is not submitting an empty task. */
     if (!content && !isCompleted) {
-        return res.status(400).send({
+        return response.status(400).send({
             error: 'is required send "content" or "isCompleted" fields for update the task'
         })
     }
@@ -118,10 +123,12 @@ exports.EditTask = async (req, res, next) => {
 
     try{
         const updatedTask = await Task.findByIdAndUpdate(id, task, { new: true })
-        res.status(200).json(updatedTask)
+        response.status(200).json(updatedTask)
     }
     catch (error){
         next(error)
     }
 
-}
+})
+
+module.exports = taskRouter

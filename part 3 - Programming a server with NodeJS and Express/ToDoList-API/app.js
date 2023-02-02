@@ -10,6 +10,7 @@ const Tracing = require('@sentry/tracing')
 const handleErrors = require('./middlewares/handleErrors')
 const notFound = require('./middlewares/notFound')
 const taskRouter = require('./routes/taskRouter')
+const usersRouter = require('./controllers/UserController')
 const cors = require('cors')
 
 // Initialize express app
@@ -41,6 +42,7 @@ app.use(express.json())
 
 //routes
 app.use(taskRouter)
+app.use('/api/users', usersRouter)
 app.use(Sentry.Handlers.errorHandler())
 app.use(notFound)
 app.use(handleErrors)

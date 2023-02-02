@@ -1,16 +1,16 @@
 const { model, Schema } = require('mongoose')
 
-const taskSchema = new Schema({
+const noteSchema = new Schema({
     content: String,
     date: Date,
-    isCompleted: Boolean,
+    isImportant: Boolean,
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
 })
 
-taskSchema.set('toJSON', {
+noteSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id,
         delete returnedObject._id,
@@ -18,6 +18,6 @@ taskSchema.set('toJSON', {
     }
 })
 
-const Task = model('Task', taskSchema)
+const Note = model('Note', noteSchema)
 
-module.exports = Task
+module.exports = Note

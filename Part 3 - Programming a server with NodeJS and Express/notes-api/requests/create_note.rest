@@ -1,6 +1,6 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2NiZjUzYmY1MmU5Yjk2YWY2ZjI5MSIsInVzZXJuYW1lIjoiZnJhaW5lcmFsZXgiLCJpYXQiOjE2NzQ2OTk3NDgsImV4cCI6MTY3NTMwNDU0OH0.or9t-gD241Q4OZWhynin2lQLxP3kPCJN7MMzuVjUjv4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2NiZjUzYmY1MmU5Yjk2YWY2ZjI5MSIsInVzZXJuYW1lIjoiZnJhaW5lcmFsZXgiLCJpYXQiOjE2NzUzNTgwMDcsImV4cCI6MTY3NTk2MjgwN30.3uv5Z_3treGniLOC_ckd1eiRuoKExdHcML3kGkQFMAE
 
 {
 "content": "This is my thirt note",
